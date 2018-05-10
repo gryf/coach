@@ -295,26 +295,6 @@ class Atari(EnvironmentParameters):
     crop_observation = False  # in the original paper the observation is cropped but not in the Nature paper
 
 
-class Carla(EnvironmentParameters):
-    type = 'Carla'
-    frame_skip = 1
-    observation_stack_size = 4
-    desired_observation_height = 128
-    desired_observation_width = 180
-    normalize_observation = False
-    server_height = 256
-    server_width = 360
-    config = 'environments/CarlaSettings.ini'
-    level = 'town1'
-    verbose = True
-    stereo = False
-    semantic_segmentation = False
-    depth = False
-    episode_max_time = 100000  # miliseconds for each episode
-    continuous_to_bool_threshold = 0.5
-    allow_braking = False
-
-
 class NStepQ(AgentParameters):
     type = 'NStepQAgent'
     input_types = {'observation': InputTypes.Observation}

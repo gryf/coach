@@ -17,7 +17,6 @@ import argparse
 import atexit
 import json
 import os
-import re
 import subprocess
 import sys
 import time
@@ -25,8 +24,8 @@ import time
 import tensorflow as tf
 
 from coach import agents  # noqa
-from coach import configurations as conf
 from coach import environments
+from coach.environments import gym_environment_wrapper as gym_w
 from coach import logger
 from coach import presets
 from coach import utils
@@ -214,7 +213,10 @@ def main():
 
         # Single-thread runs
         tuning_parameters.task_index = 0
-        env_instance = environments.create_environment(tuning_parameters)  # noqa
+
+        # create environment
+        gym_w.GymEnvironmentWrapper(tuning_parameters)
+
         agent = eval('agents.' + tuning_parameters.agent.type +
                      '(env_instance, tuning_parameters)')
 

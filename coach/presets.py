@@ -1151,44 +1151,6 @@ class Breakout_A3C(conf.Preset):
         self.agent.middleware_type = conf.MiddlewareTypes.FC
 
 
-class Carla_A3C(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.ActorCritic, conf.Carla, conf.EntropyExploration)
-        self.agent.embedder_complexity = conf.EmbedderComplexity.Deep
-        self.agent.policy_gradient_rescaler = 'GAE'
-        self.learning_rate = 0.0001
-        self.num_heatup_steps = 0
-        # self.env.reward_scaling = 1.0e9
-        self.agent.discount = 0.99
-        self.agent.apply_gradients_every_x_episodes = 1
-        self.agent.num_steps_between_gradient_updates = 30
-        self.agent.gae_lambda = 1
-        self.agent.beta_entropy = 0.01
-        self.clip_gradients = 40
-        self.agent.middleware_type = conf.MiddlewareTypes.FC
-
-
-class Carla_DDPG(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DDPG, conf.Carla, conf.OUExploration)
-        self.agent.embedder_complexity = conf.EmbedderComplexity.Deep
-        self.learning_rate = 0.0001
-        self.num_heatup_steps = 1000
-        self.agent.num_consecutive_training_steps = 5
-
-
-class Carla_BC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.BC, conf.Carla, conf.ExplorationParameters)
-        self.agent.embedder_complexity = conf.EmbedderComplexity.Deep
-        self.agent.load_memory_from_file_path = 'datasets/carla_town1.p'
-        self.learning_rate = 0.0005
-        self.num_heatup_steps = 0
-        self.evaluation_episodes = 5
-        self.batch_size = 120
-        self.evaluate_every_x_training_iterations = 5000
-
-
 class MontezumaRevenge_BC(conf.Preset):
     def __init__(self):
         conf.Preset.__init__(self, conf.BC, conf.Atari, conf.ExplorationParameters)

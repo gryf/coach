@@ -13,17 +13,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from coach.environments.gym_environment_wrapper import GymEnvironmentWrapper
-from coach.environments.carla_environment_wrapper import CarlaEnvironmentWrapper
-from coach import utils
-
-
-class EnvTypes(utils.Enum):
-    Gym = "GymEnvironmentWrapper"
-    Carla = "CarlaEnvironmentWrapper"
-
-
-def create_environment(tuning_parameters):
-    env_type_name, env_type = EnvTypes().verify(tuning_parameters.env.type)
-    env = eval(env_type)(tuning_parameters)
-    return env
