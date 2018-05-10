@@ -14,13 +14,11 @@
 # limitations under the License.
 #
 from coach.environments.gym_environment_wrapper import GymEnvironmentWrapper
-from coach.environments.doom_environment_wrapper import DoomEnvironmentWrapper
 from coach.environments.carla_environment_wrapper import CarlaEnvironmentWrapper
 from coach import utils
 
 
 class EnvTypes(utils.Enum):
-    Doom = "DoomEnvironmentWrapper"
     Gym = "GymEnvironmentWrapper"
     Carla = "CarlaEnvironmentWrapper"
 

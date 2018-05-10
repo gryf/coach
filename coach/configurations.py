@@ -148,7 +148,7 @@ class AgentParameters(Parameters):
 
 
 class EnvironmentParameters(Parameters):
-    type = 'Doom'
+    type = 'Gym'
     level = 'basic'
     observation_stack_size = 4
     frame_skip = 4
@@ -293,14 +293,6 @@ class Atari(EnvironmentParameters):
     reward_clipping_min = -1.0
     random_initialization_steps = 30
     crop_observation = False  # in the original paper the observation is cropped but not in the Nature paper
-
-
-class Doom(EnvironmentParameters):
-    type = 'Doom'
-    frame_skip = 4
-    observation_stack_size = 3
-    desired_observation_height = 60
-    desired_observation_width = 76
 
 
 class Carla(EnvironmentParameters):

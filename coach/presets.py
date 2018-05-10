@@ -17,11 +17,11 @@ import ast
 import json
 import sys
 
-from coach import agents
+from coach import agents  # noqa
 from coach import configurations as conf
-from coach import environments as env
-from coach import exploration_policies as ep
-from coach import presets
+from coach import environments as env  # noqa
+from coach import exploration_policies as ep  # noqa
+from coach import presets  # noqa
 
 
 def json_to_preset(json_path):
@@ -69,79 +69,6 @@ def json_to_preset(json_path):
     return tuning_parameters
 
 
-class Doom_Basic_DQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DQN, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.num_heatup_steps = 1000
-
-
-class Doom_Basic_QRDQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.QuantileRegressionDQN, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.learning_rate = 0.00025
-        self.agent.num_episodes_in_experience_replay = 200
-        self.num_heatup_steps = 1000
-
-
-class Doom_Basic_OneStepQ(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.NStepQ, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.learning_rate = 0.00025
-        self.num_heatup_steps = 0
-        self.agent.num_steps_between_copying_online_weights_to_target = 100
-        self.agent.optimizer_type = 'Adam'
-        self.clip_gradients = 1000
-        self.agent.targets_horizon = '1-Step'
-
-
-class Doom_Basic_NStepQ(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.NStepQ, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.learning_rate = 0.000025
-        self.num_heatup_steps = 0
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.agent.optimizer_type = 'Adam'
-        self.clip_gradients = 1000
-
-
-class Doom_Basic_A2C(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.ActorCritic, conf.Doom, conf.CategoricalExploration)
-        self.env.level = 'basic'
-        self.agent.policy_gradient_rescaler = 'A_VALUE'
-        self.learning_rate = 0.00025
-        self.num_heatup_steps = 100
-        self.env.reward_scaling = 100.
-
-
-class Doom_Basic_Dueling_DDQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DDQN, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.agent.output_types = [conf.OutputTypes.DuelingQ]
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.num_heatup_steps = 1000
-
-class Doom_Basic_Dueling_DQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DuelingDQN, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.num_heatup_steps = 1000
-
-
 class CartPole_Dueling_DDQN(conf.Preset):
     def __init__(self):
         conf.Preset.__init__(self, conf.DDQN, conf.GymVectorObservation, conf.ExplorationParameters)
@@ -157,17 +84,6 @@ class CartPole_Dueling_DDQN(conf.Preset):
         self.test = True
         self.test_max_step_threshold = 100
         self.test_min_return_threshold = 150
-
-
-class Doom_Health_MMC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.MMC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'HEALTH_GATHERING'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.num_heatup_steps = 1000
-        self.exploration.epsilon_decay_steps = 10000
 
 class CartPole_MMC(conf.Preset):
     def __init__(self):
@@ -203,7 +119,7 @@ class CartPole_PAL(conf.Preset):
 
 class CartPole_DFP(conf.Preset):
     def __init__(self):
-        Preset.__init__(self, conf.DFP, conf.GymVectorObservation, conf.ExplorationParameters)
+        conf.Preset.__init__(self, conf.DFP, conf.GymVectorObservation, conf.ExplorationParameters)
         self.env.level = 'CartPole-v0'
         self.agent.num_episodes_in_experience_replay = 200
         self.learning_rate = 0.0001
@@ -211,40 +127,6 @@ class CartPole_DFP(conf.Preset):
         self.exploration.epsilon_decay_steps = 10000
         self.agent.use_accumulated_reward_as_measurement = True
         self.agent.goal_vector = [1.0]
-
-
-class Doom_Basic_DFP(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DFP, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'BASIC'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.0001
-        self.num_heatup_steps = 1000
-        self.exploration.epsilon_decay_steps = 10000
-        self.agent.use_accumulated_reward_as_measurement = True
-        self.agent.goal_vector = [0.0, 1.0]
-        # self.agent.num_consecutive_playing_steps = 10
-
-
-class Doom_Health_DFP(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DFP, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'HEALTH_GATHERING'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.num_heatup_steps = 1000
-        self.exploration.epsilon_decay_steps = 10000
-        self.agent.use_accumulated_reward_as_measurement = True
-
-
-class Doom_Deadly_Corridor_Bootstrapped_DQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.BootstrappedDQN, conf.Doom, conf.BootstrappedDQNExploration)
-        self.env.level = 'deadly_corridor'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
-        self.num_heatup_steps = 1000
 
 
 class CartPole_Bootstrapped_DQN(conf.Preset):
@@ -536,16 +418,6 @@ class Atari_DQN_TestBench(conf.Preset):
         self.evaluation_episodes = 25
         self.evaluate_every_x_episodes = 1000
         self.num_training_iterations = 500
-
-
-class Doom_Basic_PG(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.PolicyGradient, conf.Doom, conf.CategoricalExploration)
-        self.env.level = 'basic'
-        self.agent.policy_gradient_rescaler = 'FUTURE_RETURN_NORMALIZED_BY_TIMESTEP'
-        self.learning_rate = 0.00001
-        self.num_heatup_steps = 0
-        self.agent.beta_entropy = 0.01
 
 
 class InvertedPendulum_PG(conf.Preset):
@@ -925,22 +797,6 @@ class CartPole_NEC(conf.Preset):
         self.test_min_return_threshold = 150
 
 
-class Doom_Basic_NEC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.NEC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.learning_rate = 0.00001
-        self.agent.num_transitions_in_experience_replay = 100000
-        # self.exploration.initial_epsilon = 0.1  # TODO: try exploration
-        # self.exploration.final_epsilon = 0.1
-        # self.exploration.epsilon_decay_steps = 1000000
-        self.num_heatup_steps = 200
-        self.evaluation_episodes = 1
-        self.evaluate_every_x_episodes = 5
-        self.seed = 123
-
-
-
 class Montezuma_NEC(conf.Preset):
     def __init__(self):
         conf.Preset.__init__(self, conf.NEC, conf.Atari, conf.ExplorationParameters)
@@ -969,28 +825,6 @@ class Breakout_NEC(conf.Preset):
         self.evaluation_episodes = 1
         self.evaluate_every_x_episodes = 25
         self.seed = 123
-
-
-class Doom_Health_NEC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.NEC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'HEALTH_GATHERING'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.num_heatup_steps = 1000
-        self.exploration.epsilon_decay_steps = 10000
-        self.agent.num_playing_steps_between_two_training_steps = 1
-
-
-class Doom_Health_DQN(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.DQN, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'HEALTH_GATHERING'
-        self.agent.num_episodes_in_experience_replay = 200
-        self.learning_rate = 0.00025
-        self.num_heatup_steps = 1000
-        self.exploration.epsilon_decay_steps = 10000
-        self.agent.num_steps_between_copying_online_weights_to_target = 1000
 
 
 class Pong_NEC_LSTM(conf.Preset):
@@ -1285,23 +1119,6 @@ class BipedalWalker_A3C(conf.Preset):
         self.agent.middleware_type = conf.MiddlewareTypes.FC
 
 
-class Doom_Basic_A3C(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.ActorCritic, conf.Doom, conf.CategoricalExploration)
-        self.env.level = 'basic'
-        self.agent.policy_gradient_rescaler = 'GAE'
-        self.learning_rate = 0.0001
-        self.num_heatup_steps = 0
-        self.env.reward_scaling = 100.
-        self.agent.discount = 0.99
-        self.agent.apply_gradients_every_x_episodes = 1
-        self.agent.num_steps_between_gradient_updates = 30
-        self.agent.gae_lambda = 1
-        self.agent.beta_entropy = 0.01
-        self.clip_gradients = 40
-        self.agent.middleware_type = conf.MiddlewareTypes.FC
-
-
 class Pong_A3C(conf.Preset):
     def __init__(self):
         conf.Preset.__init__(self, conf.ActorCritic, conf.Atari, conf.CategoricalExploration)
@@ -1370,43 +1187,6 @@ class Carla_BC(conf.Preset):
         self.evaluation_episodes = 5
         self.batch_size = 120
         self.evaluate_every_x_training_iterations = 5000
-
-
-class Doom_Basic_BC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.BC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'basic'
-        self.agent.load_memory_from_file_path = 'datasets/doom_basic.p'
-        self.learning_rate = 0.0005
-        self.num_heatup_steps = 0
-        self.evaluation_episodes = 5
-        self.batch_size = 120
-        self.evaluate_every_x_training_iterations = 100
-        self.num_training_iterations = 2000
-
-
-class Doom_Defend_BC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.BC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'defend'
-        self.agent.load_memory_from_file_path = 'datasets/doom_defend.p'
-        self.learning_rate = 0.0005
-        self.num_heatup_steps = 0
-        self.evaluation_episodes = 5
-        self.batch_size = 120
-        self.evaluate_every_x_training_iterations = 100
-
-
-class Doom_Deathmatch_BC(conf.Preset):
-    def __init__(self):
-        conf.Preset.__init__(self, conf.BC, conf.Doom, conf.ExplorationParameters)
-        self.env.level = 'deathmatch'
-        self.agent.load_memory_from_file_path = 'datasets/doom_deathmatch.p'
-        self.learning_rate = 0.0005
-        self.num_heatup_steps = 0
-        self.evaluation_episodes = 5
-        self.batch_size = 120
-        self.evaluate_every_x_training_iterations = 100
 
 
 class MontezumaRevenge_BC(conf.Preset):
