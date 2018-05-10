@@ -44,12 +44,6 @@ def json_to_preset(json_path):
         if run_dict['exploration_policy_type'] is not None:
             tuning_parameters.exploration = eval('ep.' + run_dict['exploration_policy_type'])()
 
-    # human control
-    if run_dict['play']:
-        tuning_parameters.agent.type = 'HumanAgent'
-        tuning_parameters.env.human_control = True
-        tuning_parameters.num_heatup_steps = 0
-
     if run_dict['level']:
         tuning_parameters.env.level = run_dict['level']
 

@@ -23,7 +23,6 @@ from coach.agents.ddpg_agent import DDPGAgent
 from coach.agents.ddqn_agent import DDQNAgent
 from coach.agents.dfp_agent import DFPAgent
 from coach.agents.dqn_agent import DQNAgent
-from coach.agents.human_agent import HumanAgent
 from coach.agents.imitation_agent import ImitationAgent
 from coach.agents.mmc_agent import MixedMonteCarloAgent
 from coach.agents.n_step_q_agent import NStepQAgent
@@ -46,7 +45,6 @@ __all__ = [ActorCriticAgent,
            DDQNAgent,
            DFPAgent,
            DQNAgent,
-           HumanAgent,
            ImitationAgent,
            MixedMonteCarloAgent,
            NAFAgent,

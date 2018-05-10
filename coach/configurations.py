@@ -160,7 +160,6 @@ class EnvironmentParameters(Parameters):
     reward_scaling = 1.0
     reward_clipping_min = None
     reward_clipping_max = None
-    human_control = False
 
 
 class ExplorationParameters(Parameters):
@@ -257,7 +256,6 @@ class VisualizationParameters(Parameters):
     dump_signals_to_csv_every_x_episodes = 5
     render = False
     dump_gifs = True
-    max_fps_for_human_control = 10
     tensorboard = False
 
 
@@ -323,11 +321,6 @@ class Carla(EnvironmentParameters):
     episode_max_time = 100000  # miliseconds for each episode
     continuous_to_bool_threshold = 0.5
     allow_braking = False
-
-
-class Human(AgentParameters):
-    type = 'HumanAgent'
-    num_episodes_in_experience_replay = 10000000
 
 
 class NStepQ(AgentParameters):

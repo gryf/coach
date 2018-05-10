@@ -16,18 +16,10 @@
 import os
 import collections
 
-from coach import configurations as conf
-from coach import logger
-try:
-    import tensorflow as tf
-    from coach.architectures.tensorflow_components import general_network as tf_net
-except ImportError:
-    logger.failed_imports.append("TensorFlow")
+import tensorflow as tf
 
-try:
-    from coach.architectures.neon_components import general_network as neon_net
-except ImportError:
-    logger.failed_imports.append("Neon")
+from coach.architectures.tensorflow_components import general_network as tf_net
+from coach import logger
 
 
 class NetworkWrapper(object):
@@ -50,13 +42,7 @@ class NetworkWrapper(object):
         self.has_global = has_global
         self.name = name
         self.sess = tuning_parameters.sess
-
-        if self.tp.framework == conf.Frameworks.TensorFlow:
-            general_network = tf_net.GeneralTensorFlowNetwork
-        elif self.tp.framework == conf.Frameworks.Neon:
-            general_network = neon_net.GeneralNeonNetwork
-        else:
-            raise Exception("{} Framework is not supported".format(conf.Frameworks().to_string(self.tp.framework)))
+        general_network = tf_net.GeneralTensorFlowNetwork
 
         # Global network - the main network shared between threads
         self.global_network = None
@@ -78,7 +64,7 @@ class NetworkWrapper(object):
                 self.target_network = general_network(tuning_parameters, '{}/target'.format(name),
                                                       network_is_local=True)
 
-        if not self.tp.distributed and self.tp.framework == conf.Frameworks.TensorFlow:
+        if not self.tp.distributed:
             variables_to_restore = tf.global_variables()
             variables_to_restore = [v for v in variables_to_restore if '/online' in v.name]
             self.model_saver = tf.train.Saver(variables_to_restore)

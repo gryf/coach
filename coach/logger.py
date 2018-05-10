@@ -221,12 +221,12 @@ class Logger(BaseLogger):
     def get_signal_value(self, time, signal_name):
         return self.data.loc[time, signal_name]
 
-    def dump_output_csv(self, append=True):
+    def dump_output_csv(self):
         self.data.index.name = "Episode #"
         if len(self.data.index) == 1:
             self.start_time = time.time()
 
-        if os.path.exists(self.csv_path) and append:
+        if os.path.exists(self.csv_path):
             self.data[self.last_line_idx_written_to_csv:].to_csv(self.csv_path, mode='a', header=False)
         else:
             self.data.to_csv(self.csv_path)

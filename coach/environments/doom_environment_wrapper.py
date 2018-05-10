@@ -91,11 +91,7 @@ class DoomEnvironmentWrapper(ew.EnvironmentWrapper):
         self.game.set_window_visible(False)
         self.game.add_game_args("+vid_forcesurface 1")
 
-        self.wait_for_explicit_human_action = True
-        if self.human_control:
-            self.game.set_screen_resolution(vizdoom.ScreenResolution.RES_640X480)
-            self.renderer.create_screen(640, 480)
-        elif self.is_rendered:
+        if self.is_rendered:
             self.game.set_screen_resolution(vizdoom.ScreenResolution.RES_320X240)
             self.renderer.create_screen(320, 240)
         else:

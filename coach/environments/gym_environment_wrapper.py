@@ -45,8 +45,6 @@ class GymEnvironmentWrapper(ew.EnvironmentWrapper):
         if self.is_rendered:
             image = self.get_rendered_image()
             scale = 1
-            if self.human_control:
-                scale = 2
             self.renderer.create_screen(image.shape[1]*scale, image.shape[0]*scale)
 
         if isinstance(self.env.observation_space, gym.spaces.Dict):

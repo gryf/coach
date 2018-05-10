@@ -57,9 +57,6 @@ class EnvironmentWrapper(object):
         self.is_rendered = self.tp.visualization.render
         self.seed = self.tp.seed
         self.frame_skip = self.tp.env.frame_skip
-        self.human_control = self.tp.env.human_control
-        self.wait_for_explicit_human_action = False
-        self.is_rendered = self.is_rendered or self.human_control
         self.game_is_open = True
 
     @property
